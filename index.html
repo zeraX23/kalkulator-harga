@@ -4,73 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#f97316">
+    <meta name="description" content="Kalkulator Harga Jual E-Commerce Profesional">
     <title>Kalkulator Harga Jual E-Commerce</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f4f6f8;
+            -webkit-font-smoothing: antialiased;
         }
         
         /* Utilitas Input Custom */
         .input-wrapper { position: relative; }
         
-        .prefix-text {
-            position: absolute; left: 1rem; top: 50%;
-            transform: translateY(-50%); color: #64748b; font-weight: 500;
-            pointer-events: none; /* Mencegah bentrok klik dengan input */
+        .prefix-text, .suffix-text {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            color: #64748b; font-weight: 500; pointer-events: none;
+            user-select: none;
         }
-        
-        .suffix-text {
-            position: absolute; right: 1rem; top: 50%;
-            transform: translateY(-50%); color: #64748b; font-weight: 500;
-            pointer-events: none;
-        }
+        .prefix-text { left: 1rem; }
+        .suffix-text { right: 1rem; }
 
-        /* Transisi halus untuk semua elemen interaktif */
-        input { transition: all 0.2s ease-in-out; }
+        input { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        /* Menghilangkan panah atas/bawah pada input number */
+        /* Menghilangkan panah spinner bawaan browser */
         input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none; margin: 0;
-        }
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type="number"] { -moz-appearance: textfield; }
     </style>
 
-    <!-- Script PWA (Otomatis Install Android) -->
+    <!-- Script Instalasi PWA Terisolasi -->
     <script>
-        const iconBase64 = "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iI2Y5NzMxNiIvPjxwYXRoIGQ9Ik0xMjggMTI4aDI1NnY2NEgxMjh6TTEyOCAyNTZoNjR2NjRoLTY0ek0yMjQgMjU2aDY0djY0aC02NHpNMzIwIDI1Nmg2NHY2NGgtNjR6TTEyOCAzNTJoNjR2NjRoLTY0ek0yMjQgMzUyaDY0djY0aC02NHpNMzIwIDM1Mmg2NHY2NGgtNjR6IiBmaWxsPSIjZmZmIi8+PC9zdmc+";
-        const iconDataUrl = "data:image/svg+xml;base64," + iconBase64;
-        
-        const manifest = {
-            name: "Kalkulator Harga Jual",
-            short_name: "Kalkulator",
-            start_url: window.location.href.split('?')[0],
-            display: "standalone",
-            background_color: "#f4f6f8",
-            theme_color: "#f97316",
-            icons: [{ src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
-        };
+        (function initPWA() {
+            "use strict";
+            const iconBase64 = "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iI2Y5NzMxNiIvPjxwYXRoIGQ9Ik0xMjggMTI4aDI1NnY2NEgxMjh6TTEyOCAyNTZoNjR2NjRoLTY0ek0yMjQgMjU2aDY0djY0aC02NHpNMzIwIDI1Nmg2NHY2NGgtNjR6TTEyOCAzNTJoNjR2NjRoLTY0ek0yMjQgMzUyaDY0djY0aC02NHpNMzIwIDM1Mmg2NHY2NGgtNjR6IiBmaWxsPSIjZmZmIi8+PC9zdmc+";
+            const iconDataUrl = "data:image/svg+xml;base64," + iconBase64;
+            
+            const manifest = {
+                name: "Kalkulator Harga Jual",
+                short_name: "Kalkulator",
+                start_url: window.location.pathname,
+                display: "standalone",
+                background_color: "#f4f6f8",
+                theme_color: "#f97316",
+                icons: [{ src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
+            };
 
-        const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' }));
-        document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'manifest', href: manifestUrl }));
-        document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'apple-touch-icon', href: iconDataUrl }));
+            const appendLink = (rel, href) => document.head.appendChild(Object.assign(document.createElement('link'), { rel, href }));
+            appendLink('manifest', URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' })));
+            appendLink('apple-touch-icon', iconDataUrl);
 
-        if ('serviceWorker' in navigator) {
-            const swCode = `self.addEventListener('install', e => self.skipWaiting()); self.addEventListener('activate', e => self.clients.claim()); self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));`;
-            const swUrl = URL.createObjectURL(new Blob([swCode], { type: 'application/javascript' }));
-            window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(console.error));
-        }
+            if ('serviceWorker' in navigator) {
+                const swCode = `self.addEventListener('install', e => self.skipWaiting()); self.addEventListener('activate', e => self.clients.claim()); self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));`;
+                window.addEventListener('load', () => navigator.serviceWorker.register(URL.createObjectURL(new Blob([swCode], { type: 'application/javascript' }))).catch(() => {}));
+            }
+        })();
     </script>
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Header / Navbar -->
+    <!-- Navbar -->
     <nav class="bg-gradient-to-r from-orange-500 to-orange-600 shadow-md">
         <div class="max-w-5xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center gap-3">
-            <div class="bg-white/20 p-2 rounded-lg">
+            <div class="bg-white/20 p-2 rounded-lg" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
@@ -79,99 +78,92 @@
         </div>
     </nav>
 
-    <!-- Main Content Layout -->
+    <!-- Main Content -->
     <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- Left Column: Form Inputs -->
+            <!-- Input Area -->
             <div class="lg:col-span-7 xl:col-span-8 space-y-6">
                 
-                <!-- Card 1: Biaya Nominal -->
+                <!-- Card 1: Modal -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="bg-slate-50 px-6 py-4 border-b border-slate-100">
                         <h2 class="text-base font-semibold text-slate-800">1. Biaya Dasar & Operasional</h2>
-                        <p class="text-xs text-slate-500 mt-1">Masukkan modal produk dan biaya perlengkapan (Nominal Rupiah)</p>
+                        <p class="text-xs text-slate-500 mt-1">Masukkan modal produk dan biaya perlengkapan</p>
                     </div>
                     <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">HPP Produk <span class="text-red-500">*</span></label>
+                            <label for="hpp" class="block text-sm font-medium text-slate-700 mb-1.5">HPP Produk <span class="text-rose-500">*</span></label>
                             <div class="input-wrapper">
                                 <span class="prefix-text">Rp</span>
-                                <input type="text" id="hpp" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base nominal-input" placeholder="0">
+                                <input type="text" id="hpp" data-type="currency" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base font-medium" placeholder="0">
                             </div>
                         </div>
-
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Plastik Packing</label>
+                            <label for="plastik" class="block text-sm font-medium text-slate-700 mb-1.5">Plastik Packing</label>
                             <div class="input-wrapper">
                                 <span class="prefix-text">Rp</span>
-                                <input type="text" id="plastik" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base nominal-input" placeholder="0">
+                                <input type="text" id="plastik" data-type="currency" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base font-medium" placeholder="0">
                             </div>
                         </div>
-
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Kertas Termal</label>
+                            <label for="kertas" class="block text-sm font-medium text-slate-700 mb-1.5">Kertas Termal</label>
                             <div class="input-wrapper">
                                 <span class="prefix-text">Rp</span>
-                                <input type="text" id="kertas" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base nominal-input" placeholder="0">
+                                <input type="text" id="kertas" data-type="currency" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base font-medium" placeholder="0">
                             </div>
                         </div>
-
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Admin Lainnya</label>
+                            <label for="admin_lain" class="block text-sm font-medium text-slate-700 mb-1.5">Admin Lainnya</label>
                             <div class="input-wrapper">
                                 <span class="prefix-text">Rp</span>
-                                <input type="text" id="admin_lain" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base nominal-input" placeholder="0">
+                                <input type="text" id="admin_lain" data-type="currency" inputmode="numeric" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-base font-medium" placeholder="0">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: Potongan Persentase -->
+                <!-- Card 2: Potongan -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="bg-slate-50 px-6 py-4 border-b border-slate-100">
                         <h2 class="text-base font-semibold text-slate-800">2. Potongan Penjualan</h2>
-                        <p class="text-xs text-slate-500 mt-1">Biaya potongan platform dan pajak (Persentase %)</p>
+                        <p class="text-xs text-slate-500 mt-1">Biaya potongan platform dan pajak</p>
                     </div>
                     <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-5">
-                        
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Admin Shopee</label>
+                            <label for="shopee_fee" class="block text-sm font-medium text-slate-700 mb-1.5">Admin Shopee</label>
                             <div class="input-wrapper">
-                                <input type="number" step="0.1" inputmode="decimal" id="shopee_fee" class="w-full pl-4 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-right text-base font-medium" placeholder="0">
+                                <input type="number" step="0.1" id="shopee_fee" data-type="percent" inputmode="decimal" class="w-full pl-4 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-right text-base font-medium" placeholder="0">
                                 <span class="suffix-text">%</span>
                             </div>
                         </div>
-
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Pajak PPh 22</label>
+                            <label for="pph22" class="block text-sm font-medium text-slate-700 mb-1.5">Pajak PPh 22</label>
                             <div class="input-wrapper">
-                                <input type="number" step="0.1" inputmode="decimal" id="pph22" class="w-full pl-4 pr-9 py-2.5 bg-slate-100 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-right text-base font-medium text-slate-600" value="0.5">
+                                <input type="number" step="0.1" id="pph22" data-type="percent" inputmode="decimal" class="w-full pl-4 pr-9 py-2.5 bg-slate-100 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-right text-base font-medium text-slate-600" value="0.5">
                                 <span class="suffix-text">%</span>
                             </div>
                         </div>
-
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Affiliate</label>
+                            <label for="affiliate_fee" class="block text-sm font-medium text-slate-700 mb-1.5">Affiliate</label>
                             <div class="input-wrapper">
-                                <input type="number" step="0.1" inputmode="decimal" id="affiliate_fee" class="w-full pl-4 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-right text-base font-medium" placeholder="0">
+                                <input type="number" step="0.1" id="affiliate_fee" data-type="percent" inputmode="decimal" class="w-full pl-4 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none text-right text-base font-medium" placeholder="0">
                                 <span class="suffix-text">%</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Target Keuntungan -->
+                <!-- Card 3: Target -->
                 <div class="bg-orange-50 rounded-2xl shadow-sm border border-orange-100 overflow-hidden relative">
                     <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-orange-500"></div>
                     <div class="p-6">
                         <h2 class="text-base font-semibold text-orange-900 mb-4">3. Target Keuntungan Bersih</h2>
                         <div>
-                            <label class="block text-sm font-medium text-orange-800 mb-2">Berapa laba bersih per produk yang ingin didapat?</label>
+                            <label for="laba" class="block text-sm font-medium text-orange-800 mb-2">Berapa laba bersih per produk yang ingin didapat?</label>
                             <div class="input-wrapper w-full sm:w-2/3 md:w-1/2">
                                 <span class="prefix-text text-orange-600">Rp</span>
-                                <input type="text" id="laba" inputmode="numeric" class="w-full pl-11 pr-4 py-3 bg-white border border-orange-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none nominal-input font-bold text-orange-600 text-lg shadow-sm" placeholder="0">
+                                <input type="text" id="laba" data-type="currency" inputmode="numeric" class="w-full pl-11 pr-4 py-3 bg-white border border-orange-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none font-bold text-orange-600 text-lg shadow-sm" placeholder="0">
                             </div>
                         </div>
                     </div>
@@ -179,58 +171,48 @@
 
             </div>
 
-            <!-- Right Column: Result Panel -->
+            <!-- Result Area -->
             <div class="lg:col-span-5 xl:col-span-4">
                 <div class="bg-slate-900 rounded-2xl shadow-xl p-6 text-white sticky top-6">
-                    <div class="flex items-center justify-between mb-2">
-                        <h2 class="text-sm font-medium text-slate-400 uppercase tracking-wider">Rekomendasi</h2>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
+                    <h2 class="text-sm font-medium text-slate-400 uppercase tracking-wider mb-2">Rekomendasi</h2>
                     <h3 class="text-2xl font-bold mb-5">Harga Jual Produk</h3>
 
                     <div class="bg-slate-800/80 rounded-xl p-5 mb-6 text-center border border-slate-700 shadow-inner">
                         <span class="block text-sm text-slate-400 mb-2">Anda harus menjual di harga:</span>
-                        <span class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400 tracking-tight" id="hasil_harga_jual">Rp 0</span>
+                        <span class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400 tracking-tight" id="res_harga_jual">Rp 0</span>
                     </div>
 
                     <div class="space-y-3 text-sm">
                         <h4 class="font-semibold text-slate-300 border-b border-slate-700 pb-2 mb-3">Simulasi Transparansi</h4>
                         
-                        <div class="flex justify-between items-center text-slate-400">
+                        <div class="flex justify-between text-slate-400">
                             <span>Harga Jual</span>
-                            <span id="sim_harga_jual">Rp 0</span>
+                            <span id="res_sim_harga">Rp 0</span>
                         </div>
-                        
-                        <div class="flex justify-between items-center text-rose-400">
+                        <div class="flex justify-between text-rose-400">
                             <span>Shopee (<span id="lbl_shopee">0</span>%)</span>
-                            <span id="sim_shopee">- Rp 0</span>
+                            <span id="res_shopee">- Rp 0</span>
                         </div>
-                        
-                        <div class="flex justify-between items-center text-rose-400">
+                        <div class="flex justify-between text-rose-400">
                             <span>PPh 22 (<span id="lbl_pph">0.5</span>%)</span>
-                            <span id="sim_pph">- Rp 0</span>
+                            <span id="res_pph">- Rp 0</span>
                         </div>
-
-                        <div class="flex justify-between items-center text-rose-400">
+                        <div class="flex justify-between text-rose-400">
                             <span>Affiliate (<span id="lbl_affiliate">0</span>%)</span>
-                            <span id="sim_affiliate">- Rp 0</span>
+                            <span id="res_affiliate">- Rp 0</span>
                         </div>
                         
-                        <div class="flex justify-between items-center text-slate-300 pt-3 border-t border-slate-700/50 mt-2">
+                        <div class="flex justify-between text-slate-300 pt-3 border-t border-slate-700/50 mt-2">
                             <span>Total Dana Cair</span>
-                            <span id="sim_dana_cair" class="font-medium text-white">Rp 0</span>
+                            <span id="res_dana_cair" class="font-medium text-white">Rp 0</span>
                         </div>
-
-                        <div class="flex justify-between items-center text-rose-300">
+                        <div class="flex justify-between text-rose-300">
                             <span>Total Modal & Ops</span>
-                            <span id="sim_modal">- Rp 0</span>
+                            <span id="res_modal">- Rp 0</span>
                         </div>
-
-                        <div class="flex justify-between items-center pt-3 border-t border-slate-700/50 mt-2 font-bold text-emerald-400 text-base">
+                        <div class="flex justify-between pt-3 border-t border-slate-700/50 mt-2 font-bold text-emerald-400 text-base">
                             <span>Laba Bersih</span>
-                            <span id="sim_laba">Rp 0</span>
+                            <span id="res_laba">Rp 0</span>
                         </div>
                     </div>
                     
@@ -243,130 +225,182 @@
         </div>
     </main>
 
+    <!-- Arsitektur JavaScript Skala Produksi -->
     <script>
-        // --- Core Functions ---
-        
-        // Membersihkan input dari huruf, menyisakan angka saja lalu diformat pakai titik
-        function formatRupiah(angka) {
-            let number_string = angka.toString().replace(/\D/g, '');
-            let sisa  = number_string.length % 3;
-            let rupiah  = number_string.substr(0, sisa);
-            let ribuan  = number_string.substr(sisa).match(/\d{3}/gi);
+        "use strict"; // Mengaktifkan mode ketat (Strict Mode) untuk performa & keamanan
 
-            if(ribuan){
-                let separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-            return rupiah;
-        }
+        const PricingApp = (function() {
+            
+            // --- 1. DOM Cache (Menyimpan elemen agar tidak dicari ulang saat mengetik) ---
+            const DOM = {
+                inputs: {
+                    hpp: document.getElementById('hpp'),
+                    plastik: document.getElementById('plastik'),
+                    kertas: document.getElementById('kertas'),
+                    adminLain: document.getElementById('admin_lain'),
+                    laba: document.getElementById('laba'),
+                    shopeePct: document.getElementById('shopee_fee'),
+                    pphPct: document.getElementById('pph22'),
+                    affiliatePct: document.getElementById('affiliate_fee')
+                },
+                labels: {
+                    shopee: document.getElementById('lbl_shopee'),
+                    pph: document.getElementById('lbl_pph'),
+                    affiliate: document.getElementById('lbl_affiliate')
+                },
+                results: {
+                    hargaJual: document.getElementById('res_harga_jual'),
+                    simHarga: document.getElementById('res_sim_harga'),
+                    shopee: document.getElementById('res_shopee'),
+                    pph: document.getElementById('res_pph'),
+                    affiliate: document.getElementById('res_affiliate'),
+                    danaCair: document.getElementById('res_dana_cair'),
+                    modal: document.getElementById('res_modal'),
+                    laba: document.getElementById('res_laba'),
+                    errorBox: document.getElementById('error_msg')
+                }
+            };
 
-        // Parse format Rupiah kembali menjadi Integer murni untuk dihitung
-        function parseRupiah(rupiahString) {
-            if(!rupiahString) return 0;
-            return parseInt(rupiahString.toString().replace(/\D/g, '')) || 0;
-        }
-
-        // Format angka hasil hitungan ke format Tampilan (Rp xxx.xxx)
-        function formatCurrencyDisplay(number) {
-            if (isNaN(number) || number < 0) return 'Rp 0';
-            return 'Rp ' + Math.round(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-
-        // --- Event Listeners ---
-        
-        const nominalInputs = document.querySelectorAll('.nominal-input');
-        const percentageInputs = document.querySelectorAll('input[type="number"]');
-
-        // Listener untuk Input Nominal (HPP, Plastik, Laba, dll)
-        nominalInputs.forEach(input => {
-            input.addEventListener('input', function(e) {
-                this.value = formatRupiah(this.value);
-                calculate();
+            // --- 2. Formatters (Pengolahan Teks & Angka Native) ---
+            const IDRFormatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency', 
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
             });
-        });
 
-        // Listener untuk Input Persentase (Shopee, PPh, Affiliate)
-        percentageInputs.forEach(input => {
-            input.addEventListener('input', calculate);
-        });
+            const Utils = {
+                parseCurrency(str) {
+                    if (!str) return 0;
+                    return parseInt(str.toString().replace(/\D/g, ''), 10) || 0;
+                },
+                formatInputDisplay(num) {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                },
+                parsePercent(str) {
+                    return parseFloat(str) || 0;
+                }
+            };
 
-        // --- Main Logic ---
-        
-        function calculate() {
-            // 1. Ambil semua nilai
-            const hpp = parseRupiah(document.getElementById('hpp').value);
-            const plastik = parseRupiah(document.getElementById('plastik').value);
-            const kertas = parseRupiah(document.getElementById('kertas').value);
-            const adminLain = parseRupiah(document.getElementById('admin_lain').value);
-            const targetLaba = parseRupiah(document.getElementById('laba').value);
+            // --- 3. Business Logic (Core Math - Terpisah dari UI) ---
+            const Calculator = {
+                process(payload) {
+                    const totalModal = payload.hpp + payload.plastik + payload.kertas + payload.adminLain;
+                    const totalPct = (payload.shopeePct + payload.pphPct + payload.affiliatePct) / 100;
 
-            const shopeePct = parseFloat(document.getElementById('shopee_fee').value) || 0;
-            const pphPct = parseFloat(document.getElementById('pph22').value) || 0;
-            const affiliatePct = parseFloat(document.getElementById('affiliate_fee').value) || 0;
+                    if (totalPct >= 1) return { error: true };
+                    if (totalModal === 0 && payload.laba === 0) return { empty: true };
 
-            // 2. Jumlahkan
-            const totalModalNominal = hpp + plastik + kertas + adminLain;
-            const totalPotonganPct = (shopeePct + pphPct + affiliatePct) / 100;
+                    const baseAmount = totalModal + payload.laba;
+                    const hargaJual = baseAmount / (1 - totalPct);
 
-            // 3. Validasi
-            const errorMsg = document.getElementById('error_msg');
-            if (totalPotonganPct >= 1) {
-                errorMsg.classList.remove('hidden');
-                resetDisplay();
-                return;
-            } else {
-                errorMsg.classList.add('hidden');
-            }
+                    return {
+                        error: false,
+                        empty: false,
+                        hargaJual,
+                        potonganShopee: hargaJual * (payload.shopeePct / 100),
+                        potonganPph: hargaJual * (payload.pphPct / 100),
+                        potonganAffiliate: hargaJual * (payload.affiliatePct / 100),
+                        danaCair: hargaJual * (1 - totalPct),
+                        totalModal,
+                        labaBersih: (hargaJual * (1 - totalPct)) - totalModal
+                    };
+                }
+            };
 
-            // Jika Modal dan Target Laba Kosong, reset panel kanan
-            if (totalModalNominal === 0 && targetLaba === 0) {
-                resetDisplay();
-                return;
-            }
+            // --- 4. UI Controller (Menjembatani Logika dan Layar) ---
+            const Controller = {
+                init() {
+                    this.bindEvents();
+                    this.render(); // Jalankan sekali saat load
+                },
 
-            // 4. Hitung Harga Jual (Aljabar Terbalik)
-            const baseAmount = totalModalNominal + targetLaba;
-            const hargaJual = baseAmount / (1 - totalPotonganPct);
+                bindEvents() {
+                    // Event Delegation: Tangkap semua input berbasis mata uang
+                    document.querySelectorAll('input[data-type="currency"]').forEach(input => {
+                        input.addEventListener('input', (e) => {
+                            const rawValue = Utils.parseCurrency(e.target.value);
+                            e.target.value = rawValue === 0 ? '' : Utils.formatInputDisplay(rawValue);
+                            this.render();
+                        });
+                    });
 
-            // 5. Kalkulasi Ulang untuk Transparansi
-            const potonganShopee = hargaJual * (shopeePct / 100);
-            const potonganPph = hargaJual * (pphPct / 100);
-            const potonganAffiliate = hargaJual * (affiliatePct / 100);
-            const danaDiterima = hargaJual - potonganShopee - potonganPph - potonganAffiliate;
-            const labaBersihActual = danaDiterima - totalModalNominal;
+                    // Tangkap semua input berbasis persentase
+                    document.querySelectorAll('input[data-type="percent"]').forEach(input => {
+                        input.addEventListener('input', () => this.render());
+                    });
+                },
 
-            // 6. Tampilkan Hasil ke Layar
-            document.getElementById('hasil_harga_jual').textContent = formatCurrencyDisplay(hargaJual);
-            document.getElementById('sim_harga_jual').textContent = formatCurrencyDisplay(hargaJual);
-            
-            document.getElementById('lbl_shopee').textContent = shopeePct;
-            document.getElementById('sim_shopee').textContent = '- ' + formatCurrencyDisplay(potonganShopee);
-            
-            document.getElementById('lbl_pph').textContent = pphPct;
-            document.getElementById('sim_pph').textContent = '- ' + formatCurrencyDisplay(potonganPph);
+                getPayload() {
+                    return {
+                        hpp: Utils.parseCurrency(DOM.inputs.hpp.value),
+                        plastik: Utils.parseCurrency(DOM.inputs.plastik.value),
+                        kertas: Utils.parseCurrency(DOM.inputs.kertas.value),
+                        adminLain: Utils.parseCurrency(DOM.inputs.adminLain.value),
+                        laba: Utils.parseCurrency(DOM.inputs.laba.value),
+                        shopeePct: Utils.parsePercent(DOM.inputs.shopeePct.value),
+                        pphPct: Utils.parsePercent(DOM.inputs.pphPct.value),
+                        affiliatePct: Utils.parsePercent(DOM.inputs.affiliatePct.value)
+                    };
+                },
 
-            document.getElementById('lbl_affiliate').textContent = affiliatePct;
-            document.getElementById('sim_affiliate').textContent = '- ' + formatCurrencyDisplay(potonganAffiliate);
-            
-            document.getElementById('sim_dana_cair').textContent = formatCurrencyDisplay(danaDiterima);
-            document.getElementById('sim_modal').textContent = '- ' + formatCurrencyDisplay(totalModalNominal);
-            document.getElementById('sim_laba').textContent = formatCurrencyDisplay(labaBersihActual);
-        }
+                updateLabels(payload) {
+                    DOM.labels.shopee.textContent = payload.shopeePct;
+                    DOM.labels.pph.textContent = payload.pphPct;
+                    DOM.labels.affiliate.textContent = payload.affiliatePct;
+                },
 
-        // Fungsi Reset Panel Layar Kanan
-        function resetDisplay() {
-            document.getElementById('hasil_harga_jual').textContent = 'Rp 0';
-            document.getElementById('sim_harga_jual').textContent = 'Rp 0';
-            document.getElementById('sim_shopee').textContent = '- Rp 0';
-            document.getElementById('sim_pph').textContent = '- Rp 0';
-            document.getElementById('sim_affiliate').textContent = '- Rp 0';
-            document.getElementById('sim_dana_cair').textContent = 'Rp 0';
-            document.getElementById('sim_modal').textContent = '- Rp 0';
-            document.getElementById('sim_laba').textContent = 'Rp 0';
-        }
+                resetUI() {
+                    DOM.results.hargaJual.textContent = 'Rp 0';
+                    DOM.results.simHarga.textContent = 'Rp 0';
+                    DOM.results.shopee.textContent = '- Rp 0';
+                    DOM.results.pph.textContent = '- Rp 0';
+                    DOM.results.affiliate.textContent = '- Rp 0';
+                    DOM.results.danaCair.textContent = 'Rp 0';
+                    DOM.results.modal.textContent = '- Rp 0';
+                    DOM.results.laba.textContent = 'Rp 0';
+                },
 
-        // Panggil hitungan saat web pertama kali dibuka
-        calculate();
+                render() {
+                    const payload = this.getPayload();
+                    this.updateLabels(payload);
+
+                    const result = Calculator.process(payload);
+
+                    if (result.error) {
+                        DOM.results.errorBox.classList.remove('hidden');
+                        this.resetUI();
+                        return;
+                    } 
+                    
+                    DOM.results.errorBox.classList.add('hidden');
+                    
+                    if (result.empty) {
+                        this.resetUI();
+                        return;
+                    }
+
+                    // Render Data Menggunakan Intl API Native Browser
+                    DOM.results.hargaJual.textContent = IDRFormatter.format(result.hargaJual);
+                    DOM.results.simHarga.textContent = IDRFormatter.format(result.hargaJual);
+                    DOM.results.shopee.textContent = '- ' + IDRFormatter.format(result.potonganShopee);
+                    DOM.results.pph.textContent = '- ' + IDRFormatter.format(result.potonganPph);
+                    DOM.results.affiliate.textContent = '- ' + IDRFormatter.format(result.potonganAffiliate);
+                    DOM.results.danaCair.textContent = IDRFormatter.format(result.danaCair);
+                    DOM.results.modal.textContent = '- ' + IDRFormatter.format(result.totalModal);
+                    DOM.results.laba.textContent = IDRFormatter.format(result.labaBersih);
+                }
+            };
+
+            // Mulai Aplikasi
+            return {
+                start: () => Controller.init()
+            };
+
+        })();
+
+        // Pastikan HTML selesai diload sebelum JS berjalan
+        document.addEventListener('DOMContentLoaded', () => PricingApp.start());
     </script>
 </body>
 </html>
