@@ -5,68 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#f97316">
     <meta name="description" content="Kalkulator Harga Jual E-Commerce Profesional">
-    <title>Kalkulator Harga Jual E-Commerce</title>
+    <title>Kalkulator Harga Jual</title>
+    
+    <!-- Memanggil file Manifest & Icon Asli -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.svg">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f6f8;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        /* Utilitas Input Custom */
+        body { font-family: 'Inter', sans-serif; background-color: #f4f6f8; -webkit-font-smoothing: antialiased; }
         .input-wrapper { position: relative; }
-        
-        .prefix-text, .suffix-text {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            color: #64748b; font-weight: 500; pointer-events: none;
-            user-select: none;
-        }
+        .prefix-text, .suffix-text { position: absolute; top: 50%; transform: translateY(-50%); color: #64748b; font-weight: 500; pointer-events: none; user-select: none; }
         .prefix-text { left: 1rem; }
         .suffix-text { right: 1rem; }
-
         input { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* Menghilangkan panah spinner bawaan browser */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type="number"] { -moz-appearance: textfield; }
     </style>
 
-    <!-- Script Instalasi PWA Terisolasi -->
+    <!-- Memanggil Service Worker -->
     <script>
-        (function initPWA() {
-            "use strict";
-            const iconBase64 = "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iI2Y5NzMxNiIvPjxwYXRoIGQ9Ik0xMjggMTI4aDI1NnY2NEgxMjh6TTEyOCAyNTZoNjR2NjRoLTY0ek0yMjQgMjU2aDY0djY0aC02NHpNMzIwIDI1Nmg2NHY2NGgtNjR6TTEyOCAzNTJoNjR2NjRoLTY0ek0yMjQgMzUyaDY0djY0aC02NHpNMzIwIDM1Mmg2NHY2NGgtNjR6IiBmaWxsPSIjZmZmIi8+PC9zdmc+";
-            const iconDataUrl = "data:image/svg+xml;base64," + iconBase64;
-            
-            const manifest = {
-                name: "Kalkulator Harga Jual",
-                short_name: "Kalkulator",
-                start_url: window.location.pathname,
-                display: "standalone",
-                background_color: "#f4f6f8",
-                theme_color: "#f97316",
-                icons: [{ src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
-            };
-
-            const appendLink = (rel, href) => document.head.appendChild(Object.assign(document.createElement('link'), { rel, href }));
-            appendLink('manifest', URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' })));
-            appendLink('apple-touch-icon', iconDataUrl);
-
-            if ('serviceWorker' in navigator) {
-                const swCode = `self.addEventListener('install', e => self.skipWaiting()); self.addEventListener('activate', e => self.clients.claim()); self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));`;
-                window.addEventListener('load', () => navigator.serviceWorker.register(URL.createObjectURL(new Blob([swCode], { type: 'application/javascript' }))).catch(() => {}));
-            }
-        })();
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(console.error);
+            });
+        }
     </script>
 </head>
 <body class="text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Navbar -->
     <nav class="bg-gradient-to-r from-orange-500 to-orange-600 shadow-md">
         <div class="max-w-5xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center gap-3">
             <div class="bg-white/20 p-2 rounded-lg" aria-hidden="true">
@@ -78,13 +46,9 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Input Area -->
             <div class="lg:col-span-7 xl:col-span-8 space-y-6">
-                
                 <!-- Card 1: Modal -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="bg-slate-50 px-6 py-4 border-b border-slate-100">
@@ -168,7 +132,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <!-- Result Area -->
@@ -221,17 +184,13 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
-    <!-- Arsitektur JavaScript Skala Produksi -->
     <script>
-        "use strict"; // Mengaktifkan mode ketat (Strict Mode) untuk performa & keamanan
+        "use strict";
 
         const PricingApp = (function() {
-            
-            // --- 1. DOM Cache (Menyimpan elemen agar tidak dicari ulang saat mengetik) ---
             const DOM = {
                 inputs: {
                     hpp: document.getElementById('hpp'),
@@ -243,46 +202,23 @@
                     pphPct: document.getElementById('pph22'),
                     affiliatePct: document.getElementById('affiliate_fee')
                 },
-                labels: {
-                    shopee: document.getElementById('lbl_shopee'),
-                    pph: document.getElementById('lbl_pph'),
-                    affiliate: document.getElementById('lbl_affiliate')
-                },
+                labels: { shopee: document.getElementById('lbl_shopee'), pph: document.getElementById('lbl_pph'), affiliate: document.getElementById('lbl_affiliate') },
                 results: {
-                    hargaJual: document.getElementById('res_harga_jual'),
-                    simHarga: document.getElementById('res_sim_harga'),
-                    shopee: document.getElementById('res_shopee'),
-                    pph: document.getElementById('res_pph'),
-                    affiliate: document.getElementById('res_affiliate'),
-                    danaCair: document.getElementById('res_dana_cair'),
-                    modal: document.getElementById('res_modal'),
-                    laba: document.getElementById('res_laba'),
+                    hargaJual: document.getElementById('res_harga_jual'), simHarga: document.getElementById('res_sim_harga'),
+                    shopee: document.getElementById('res_shopee'), pph: document.getElementById('res_pph'), affiliate: document.getElementById('res_affiliate'),
+                    danaCair: document.getElementById('res_dana_cair'), modal: document.getElementById('res_modal'), laba: document.getElementById('res_laba'),
                     errorBox: document.getElementById('error_msg')
                 }
             };
 
-            // --- 2. Formatters (Pengolahan Teks & Angka Native) ---
-            const IDRFormatter = new Intl.NumberFormat('id-ID', {
-                style: 'currency', 
-                currency: 'IDR',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            });
+            const IDRFormatter = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
             const Utils = {
-                parseCurrency(str) {
-                    if (!str) return 0;
-                    return parseInt(str.toString().replace(/\D/g, ''), 10) || 0;
-                },
-                formatInputDisplay(num) {
-                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                },
-                parsePercent(str) {
-                    return parseFloat(str) || 0;
-                }
+                parseCurrency: (str) => parseInt((str||'').toString().replace(/\D/g, ''), 10) || 0,
+                formatInputDisplay: (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+                parsePercent: (str) => parseFloat(str) || 0
             };
 
-            // --- 3. Business Logic (Core Math - Terpisah dari UI) ---
             const Calculator = {
                 process(payload) {
                     const totalModal = payload.hpp + payload.plastik + payload.kertas + payload.adminLain;
@@ -291,32 +227,22 @@
                     if (totalPct >= 1) return { error: true };
                     if (totalModal === 0 && payload.laba === 0) return { empty: true };
 
-                    const baseAmount = totalModal + payload.laba;
-                    const hargaJual = baseAmount / (1 - totalPct);
+                    const hargaJual = (totalModal + payload.laba) / (1 - totalPct);
 
                     return {
-                        error: false,
-                        empty: false,
-                        hargaJual,
+                        error: false, empty: false, hargaJual,
                         potonganShopee: hargaJual * (payload.shopeePct / 100),
                         potonganPph: hargaJual * (payload.pphPct / 100),
                         potonganAffiliate: hargaJual * (payload.affiliatePct / 100),
-                        danaCair: hargaJual * (1 - totalPct),
-                        totalModal,
+                        danaCair: hargaJual * (1 - totalPct), totalModal,
                         labaBersih: (hargaJual * (1 - totalPct)) - totalModal
                     };
                 }
             };
 
-            // --- 4. UI Controller (Menjembatani Logika dan Layar) ---
             const Controller = {
-                init() {
-                    this.bindEvents();
-                    this.render(); // Jalankan sekali saat load
-                },
-
+                init() { this.bindEvents(); this.render(); },
                 bindEvents() {
-                    // Event Delegation: Tangkap semua input berbasis mata uang
                     document.querySelectorAll('input[data-type="currency"]').forEach(input => {
                         input.addEventListener('input', (e) => {
                             const rawValue = Utils.parseCurrency(e.target.value);
@@ -324,63 +250,34 @@
                             this.render();
                         });
                     });
-
-                    // Tangkap semua input berbasis persentase
                     document.querySelectorAll('input[data-type="percent"]').forEach(input => {
                         input.addEventListener('input', () => this.render());
                     });
                 },
-
                 getPayload() {
                     return {
-                        hpp: Utils.parseCurrency(DOM.inputs.hpp.value),
-                        plastik: Utils.parseCurrency(DOM.inputs.plastik.value),
-                        kertas: Utils.parseCurrency(DOM.inputs.kertas.value),
-                        adminLain: Utils.parseCurrency(DOM.inputs.adminLain.value),
-                        laba: Utils.parseCurrency(DOM.inputs.laba.value),
-                        shopeePct: Utils.parsePercent(DOM.inputs.shopeePct.value),
-                        pphPct: Utils.parsePercent(DOM.inputs.pphPct.value),
-                        affiliatePct: Utils.parsePercent(DOM.inputs.affiliatePct.value)
+                        hpp: Utils.parseCurrency(DOM.inputs.hpp.value), plastik: Utils.parseCurrency(DOM.inputs.plastik.value),
+                        kertas: Utils.parseCurrency(DOM.inputs.kertas.value), adminLain: Utils.parseCurrency(DOM.inputs.adminLain.value),
+                        laba: Utils.parseCurrency(DOM.inputs.laba.value), shopeePct: Utils.parsePercent(DOM.inputs.shopeePct.value),
+                        pphPct: Utils.parsePercent(DOM.inputs.pphPct.value), affiliatePct: Utils.parsePercent(DOM.inputs.affiliatePct.value)
                     };
                 },
-
-                updateLabels(payload) {
-                    DOM.labels.shopee.textContent = payload.shopeePct;
-                    DOM.labels.pph.textContent = payload.pphPct;
-                    DOM.labels.affiliate.textContent = payload.affiliatePct;
-                },
-
                 resetUI() {
-                    DOM.results.hargaJual.textContent = 'Rp 0';
-                    DOM.results.simHarga.textContent = 'Rp 0';
-                    DOM.results.shopee.textContent = '- Rp 0';
-                    DOM.results.pph.textContent = '- Rp 0';
-                    DOM.results.affiliate.textContent = '- Rp 0';
-                    DOM.results.danaCair.textContent = 'Rp 0';
-                    DOM.results.modal.textContent = '- Rp 0';
-                    DOM.results.laba.textContent = 'Rp 0';
+                    DOM.results.hargaJual.textContent = 'Rp 0'; DOM.results.simHarga.textContent = 'Rp 0';
+                    DOM.results.shopee.textContent = '- Rp 0'; DOM.results.pph.textContent = '- Rp 0';
+                    DOM.results.affiliate.textContent = '- Rp 0'; DOM.results.danaCair.textContent = 'Rp 0';
+                    DOM.results.modal.textContent = '- Rp 0'; DOM.results.laba.textContent = 'Rp 0';
                 },
-
                 render() {
                     const payload = this.getPayload();
-                    this.updateLabels(payload);
+                    DOM.labels.shopee.textContent = payload.shopeePct; DOM.labels.pph.textContent = payload.pphPct; DOM.labels.affiliate.textContent = payload.affiliatePct;
 
                     const result = Calculator.process(payload);
 
-                    if (result.error) {
-                        DOM.results.errorBox.classList.remove('hidden');
-                        this.resetUI();
-                        return;
-                    } 
-                    
+                    if (result.error) { DOM.results.errorBox.classList.remove('hidden'); this.resetUI(); return; } 
                     DOM.results.errorBox.classList.add('hidden');
-                    
-                    if (result.empty) {
-                        this.resetUI();
-                        return;
-                    }
+                    if (result.empty) { this.resetUI(); return; }
 
-                    // Render Data Menggunakan Intl API Native Browser
                     DOM.results.hargaJual.textContent = IDRFormatter.format(result.hargaJual);
                     DOM.results.simHarga.textContent = IDRFormatter.format(result.hargaJual);
                     DOM.results.shopee.textContent = '- ' + IDRFormatter.format(result.potonganShopee);
@@ -391,15 +288,8 @@
                     DOM.results.laba.textContent = IDRFormatter.format(result.labaBersih);
                 }
             };
-
-            // Mulai Aplikasi
-            return {
-                start: () => Controller.init()
-            };
-
+            return { start: () => Controller.init() };
         })();
-
-        // Pastikan HTML selesai diload sebelum JS berjalan
         document.addEventListener('DOMContentLoaded', () => PricingApp.start());
     </script>
 </body>
